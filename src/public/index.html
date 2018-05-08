@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Arduino RFID</title>
+</head>
+<body>
+  <h1>Asistencia por RadioFrecuencia</h1>
+  <p id="msg"></p>
+  <button id="connect">Conectar Arduino</button>
+  <div id="options" style="display: none">
+    <h2>Opciones</h2>
+    <button id="btnRead">Leer Datos de Arduino</button>
+    <button id="btnWrite">Escribir código</button>
+  </div>
+  <div id="write" style="display: none">
+    <h2>Escribir código</h2>
+    <input type="text" id="code">
+    <button id="send">Escribir</button>
+  </div>
+  <div id="read" style="display: none">
+    <h2>Leer Datos</h2>
+    <p id="data">Esperando por datos...</p>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
