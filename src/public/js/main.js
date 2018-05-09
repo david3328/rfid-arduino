@@ -39,3 +39,7 @@ socket.on('write:success',()=>{
   code.value = '';
   msg.innerHTML = 'Arduino conectado: Código escrito';
 })
+
+socket.on('arduino:data',data=>{
+  msg.innerHTML = 'Nombre: '+data.nombre;
+})
