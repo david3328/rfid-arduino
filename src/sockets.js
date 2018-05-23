@@ -2,7 +2,7 @@ const {getConnectedArduino} = require('./functions');
 const SerialPort = require('serialport');
 // const pg = require('pg-promise')();
 // const {connectionString} = require('./cfg/core');
-
+// otra prueba
 module.exports = (io)=>{
   io.on('connection',socket=>{
     console.log('new user connected');
