@@ -4,10 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Arduino RFID</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <title>Control de Asistencia</title>
 </head>
 <body>
-  <h1>Asistencia por RadioFrecuencia</h1>
+   
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+      <li class="nav-item"><a href="views/lista_alumnos.html" class="nav-link">Lista de Alumnos</a></li>      
+      <li class="nav-item"><a class="nav-link" href="views/registrar_alumnos.html">Registrar Alumnos</a></li>
+      <li class="nav-item"><a class="nav-link" href="views/registrar_tarjeta.html">Registrar Tarjeta</a></li>
+      <li class="nav-item"><a class="nav-link" href="views/asistencia.html">Tomar Asistencia</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">...</a></li>
+    </ul>
+  </nav>
+  <div class="d-flex mt-5 flex-column align-items-center">
+    <h1>CONTROL DE ASISTENCIA</h1>
+    <img class="mt-5" width="500px" src="http://www.ymant.com/blog/wp-content/uploads/2016/06/RFID-como-funciona.jpg" alt="">
+  </div>
+  <!-- <h1>Asistencia por RadioFrecuencia</h1>
   <p id="msg"></p>
   <button id="connect">Conectar Arduino</button>
   <div id="options" style="display: none">
@@ -25,6 +41,6 @@
     <p id="data">Esperando por datos...</p>
   </div>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/main.js"></script>
+  <script src="/js/main.js"></script> -->
 </body>
 </html>
