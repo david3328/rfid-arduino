@@ -19,13 +19,15 @@
     </ul>
   </nav>
   <div class="d-flex align-items-center flex-column mt-5">
-    <img src="https://vignette.wikia.nocookie.net/sensores-domotica/images/6/63/Arduino.png/revision/latest?cb=20150929045930&path-prefix=es" alt="" id="imgArduino">
+    <img src="../img/arduino.jpg" alt="" id="imgArduino">
     <button class="btn btn-danger mt-3" id="connect">CONECTAR ARDUINO</button>
+   
     <form id="registrar" class="col-md-6">
       <h2 class="text-center mb-3">REGISTRAR TARJETA</h2>
       <div class="alert" id="alert">
        
       </div>
+      
       <div class="form-inline">
       <div class="form-group mb-2">
         <label for="codigo" class="sr-only">Código</label>
@@ -40,7 +42,9 @@
     </form>
   </div>
   <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>  
+  <script src="../js/firebase.js"></script>
+  <script src="../js/functions.js"></script>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/main.js"></script> 
+  <script src="../js/main.js"></script> 
 </body>
 </html>
