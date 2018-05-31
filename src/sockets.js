@@ -15,11 +15,6 @@ module.exports = (io)=>{
       if(!success) return;
       socket.emit('connect:success')
       mySP = sp;
-      isConnect = true;
-      // const db = pg(connectionString);               
-    });
-
-    if(isConnect){
       const Readline = SerialPort.parsers.Readline
       const parser = new Readline();
       sp.pipe(parser);
@@ -28,10 +23,13 @@ module.exports = (io)=>{
         if(data.includes('success')){
           socket.emit('write:success')
         }        
-        socket.emit('read:code',data);    
+        io.emit('read:code',data);    
         console.log(data.toString().trim());
-      })        
-    }
+      })
+      // const db = pg(connectionString);               
+    });
+
+
 
     //Escribir datos
     socket.on('write:arduino', data=>{
