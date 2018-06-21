@@ -5,7 +5,9 @@ const imgArduino = document.getElementById('imgArduino');
 const alert = document.getElementById('alert');
 const search = document.getElementById('searchCodigo');
 const codigo = document.getElementById('codigo');
-const dataAlumno = document.getElementById('alumno');
+const nombres = document.getElementById('nombres');
+const apellido_paterno = document.getElementById('apellido_paterno');
+const apellido_materno = document.getElementById('apellido_materno');
 // const miAlumno = document.getElementById('mi_alumno');
 // const nombreAlumno = document.getElementById('nombre_alumno');
 // const imgAlumno = document.getElementById('img_alumno');
@@ -15,7 +17,7 @@ let alumno;
 const socket = io();
 
 //Inicializar componentes
-formRegistrar.style.display = 'none';
+// formRegistrar.style.display = 'none';
 alert.style.display = 'none';
 btnWrite.disabled = true;
 // miAlumno.style.display = 'none';
@@ -56,24 +58,32 @@ btnConnect.addEventListener('click', e => {
 
 search.addEventListener('click',e=>{
   e.preventDefault();
-  db.ref('alumnos').once('value').then(snapshot=>{
-    const alumnos = Object.values(snapshot.val());
-    alumnos.forEach(el =>{
-      if(el.codigo.toLowerCase() == codigo.value.toLowerCase()){
-        alumno = el;
-        dataAlumno.value = `${alumno.nombre} ${alumno.apellidos}`;
-        btnWrite.disabled = false;
-        return;
-      }
-    })
-    if(alumno==null)
-      mostrarMensaje(alert,'err','Código no encontrado'); 
+  let cod = codigo.value;
+  fetch(`/alumnos/${cod}`)
+  .then(res=>res.json())
+  .then(res=>{
+    if (res.success){
+      res = res.data;
+      nombres.value = res.nombres;
+      apellido_paterno.value = res.apellido_paterno;
+      apellido_materno.value = res.apellido_materno;
+      btnWrite.disabled = false;
+    }else{
+      mostrarMensaje(alert,'err','No se encontro el alumno con el id '+cod);
+    }
+   
   })
 })
 
 btnWrite.addEventListener('click',e=>{
   e.preventDefault();
-  socket.emit('write:arduino',`${alumno.codigo}-${alumno.apellidos}`);
+  let data = {
+    nombres:nombres.value,
+    apellido_paterno:apellido_paterno.value,
+    apellido_materno:apellido_materno.value,
+    codigo:codigo.value,
+  }
+  socket.emit('write:arduino',data);
 })
 
 // socket.on('arduino:data',data=>{

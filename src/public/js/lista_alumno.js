@@ -1,18 +1,20 @@
 const data = document.getElementById('alumnos');
 
-db.ref('alumnos').on('value',snapshot=>{
-  let alumnos = Object.values(snapshot.val());
+fetch('/alumnos')
+.then(res=>res.json())
+.then(res=>{
   let html = '';
   let cont = 0;
-  alumnos.forEach(alumno=>{
-    cont++;
+  res.map(el=>{
+    cont ++;
     html += `<tr>
-    <th scope="row">${cont}</th>
-    <td>${alumno.codigo}</td>
-    <td>${alumno.nombre}</td>
-    <td>${alumno.apellidos}</td>
-    <td>${alumno.curso}</td>
-  </tr>`;
+      <th scope="row">${cont}</th>
+      <td>${el.id_alumno}</td>
+      <td>${el.nombres}</td>
+      <td>${el.apellido_paterno} ${el.apellido_materno}</td>
+      <td>${el.curso}</td>
+    </tr>`;
   });
   data.innerHTML = html;
 })
+

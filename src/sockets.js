@@ -1,9 +1,7 @@
 const {getConnectedArduino} = require('./functions');
 const SerialPort = require('serialport');
-// const pg = require('pg-promise')();
-// const {connectionString} = require('./cfg/core');
-// otra prueba
-//tmr otra más 
+
+
 module.exports = (io)=>{
   io.on('connection',socket=>{
     console.log('new user connected');
@@ -25,15 +23,14 @@ module.exports = (io)=>{
         }        
         io.emit('read:code',data);    
         console.log(data.toString().trim());
-      })
-      // const db = pg(connectionString);               
+      })        
     });
 
 
 
     //Escribir datos
     socket.on('write:arduino', data=>{
-        sp.write(data+'#')
+      sp.write(data.codigo+'#'+data.nombres+'#'+data.apellido_paterno+'#'+data.apellido_materno+'#');
     });
   })
 }
