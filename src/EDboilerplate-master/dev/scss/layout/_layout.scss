@@ -1,0 +1,20 @@
+#body{
+  transition:  all 1s;
+}
+.offline{
+  background: rgba(#000,.9);
+  color:#fff;
+}
+
+.image_container{
+  background: red;
+  width:100% ;
+  height: 100vh;
+  // height: calc(100vh - 72px);
+  text-align: center;
+  img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

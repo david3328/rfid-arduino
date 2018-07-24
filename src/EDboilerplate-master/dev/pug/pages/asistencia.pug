@@ -1,0 +1,26 @@
+extends ../includes/template
+block main
+  #conectar(style="position:fixed;bottom:0;cursor:pointer;width:80px;height:80px" title="Conectar arduino").bg-danger.rounded-circle.mb-5.ml-5.p-3.d-flex.justify-content-center.align-items-center
+    i.fa.fa-robot(style="font-size:2em;color:#fff")
+  #guardar(style="position:fixed;bottom:6em;cursor:pointer;width:80px;height:80px" title="Exportar a Excel").bg-success.rounded-circle.mb-5.ml-5.p-3.d-flex.justify-content-center.align-items-center
+    i.fa.fa-save(style="font-size:2em;color:#fff")
+  #check(style="position:fixed;bottom:12em;cursor:pointer;width:80px;height:80px" title="Conectar arduino").bg-warning.rounded-circle.mb-5.ml-5.p-3.d-flex.justify-content-center.align-items-center
+    i.fa.fa-check(style="font-size:2em;color:#fff")
+  .mt-5.pt-3
+    .container.col-lg-6.offset-lg-3.px-5.mt-5
+      .h1.text-center SELECCIONAR ASISTENCIA
+      .form-group.mt-5
+        label(for="#asistencias") Asistencia:
+        select#asistencias.form-control
+          option(value="-1") Seleccionar asistencia.   
+      h1#titulo.text-center.mt-5.mb-4.h2 LISTADO DE ALUMNOS
+      .table-container
+        table#testTable.table.table-hover(summary="Code page support in different versions of MS Windows." rules="groups" frame="hsides")
+          thead.thead-dark 
+            th(scope="col") Código
+            th(scope="col") Alumno
+            th(scope="col") Hora
+          tbody#tabla
+append scripts
+  script(src="/socket.io/socket.io.js")
+  script(src="js/asistencia.js")

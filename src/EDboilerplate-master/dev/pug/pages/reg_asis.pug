@@ -1,0 +1,16 @@
+extends ../includes/template
+block main
+  .mt-5.pt-3
+    form.col-lg-6.pt-5.px-5.offset-lg-3
+      h1.text-center REGISTRAR DE ASISTENCIA
+      .form-group
+        label(for="#docentes") Docente:
+        select#docentes.form-control
+          option(value="-1") Seleccionar docente.
+      .form-group
+        label(for="#cursos") Horario - Curso:
+        select#cursos.form-control
+          option(value="-1") Seleccionar horario y curso.          
+      button#registrar.btn.btn-success REGISTRAR    
+append scripts
+  script(src="js/reg_asis.js")

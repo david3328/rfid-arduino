@@ -1,0 +1,87 @@
+header{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  background-color:#34495E;
+  z-index: 9999;
+}
+#toggle-menu{
+  cursor: pointer;
+  font-size: 30px;
+  color: #fff;
+}
+.nav{
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 0%;
+  height: 100vh;
+  background-color: rgba(#000,0);
+  transition: background .2s;
+  ul{
+    width: 320px;
+    height: 100%;
+    background-color:#fff;
+    list-style:none;
+    position: absolute;
+    top:0;
+    margin: 0;
+    padding: 0;
+    left: -320px;
+    transition: left .3s;
+    overflow-y:scroll;
+  }
+}
+
+.menu{
+  &__title{
+    padding: 20px;
+    background-color:#5f6f81;
+    color: #fff;
+    text-align: center;
+    font-size: 22px;
+  }
+  &__link{
+    display: block;
+    padding: 20px;
+    border-bottom: 1px solid #c6d0da;
+    font-size: 22px;
+    font-weight: 200;
+    text-decoration: none;
+  }
+  &__icon{
+    margin-right: 12px;
+  }
+  &__back{
+    padding: 10px 20px;
+    background-color:#5f6f81;
+    color:#fff;
+    font-size: 18px;
+    cursor: pointer;
+    &::before{
+      @extend .fa;
+      content:'\f0d9';
+      margin-right: 10px;
+    }
+  }
+}
+
+// .submenu{display: none;}
+// // Submenu
+.item_submenu > a::after{
+  @extend .fa;
+  content: '\f105';
+  float: right;
+  color: #c5c5c5;
+}
+
+.submenu .menu__title{
+  background-color:#fff;
+  color: #575d69;
+}
+
+.u-hide{
+  display: none;
+}

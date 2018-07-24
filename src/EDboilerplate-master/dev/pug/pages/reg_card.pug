@@ -1,0 +1,29 @@
+extends ../includes/template
+block main
+  #conectar(style="position:fixed;bottom:0;cursor:pointer;width:80px;height:80px" title="Conectar arduino").bg-danger.rounded-circle.mb-5.ml-5.p-3.d-flex.justify-content-center.align-items-center
+    i.fa.fa-robot(style="font-size:2em;color:#fff")
+  .mt-5.pt-3 
+    form.col-lg-6.offset-lg-3.pt-5.px-5
+      h1.text-center REGISTRAR TARJETA      
+      .form-group
+        label(for="#codigo") Código alumno:
+        .input-group
+          input#codigo.form-control(type="text" placeholder="Ingrese código del alumno.")
+          .input-group-append
+              input#buscar.btn.btn-primary(type="button" value="BUSCAR")
+      .form-group
+        label(for="#alumno") Nombres:        
+        input#nombres.form-control(type="text" readonly)
+      .form-group
+        label(for="#alumno") Apellido Paterno:        
+        input#apaterno.form-control(type="text" readonly)
+      .form-group
+        label(for="#alumno") Apellido Materno:        
+        input#amaterno.form-control(type="text" readonly)
+          
+      input#idalumno.u-hide(type="text")     
+      button#registrar.btn.btn-success REGISTRAR
+        
+append scripts
+  script(src="/socket.io/socket.io.js")
+  script(src="js/reg_card.js")

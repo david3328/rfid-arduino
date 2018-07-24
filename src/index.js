@@ -7,18 +7,11 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio.listen(server);
 
-//Rutas
-const alumnoRouter = require('./routes/alumnoRoute')
-
-
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3030);
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.json());
 
 require('./sockets')(io);
-
-app.use(alumnoRouter);
-
 
 //Listen server
 server.listen(app.get('port'),()=>{

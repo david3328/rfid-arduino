@@ -4,7 +4,7 @@ const SerialPort = require('serialport');
 
 module.exports = (io)=>{
   io.on('connection',socket=>{
-    console.log('new user connected');
+    //console.log('new user connected');
     let isConnect = false;
     let mySP;
     //Conectar la placa Arduino a SerialPort
@@ -19,17 +19,15 @@ module.exports = (io)=>{
       parser.on('data',data=>{     
         data = data.toString().trim();
         if(data.includes('success')){
-          socket.emit('write:success')
+          io.emit('write:success')
         }        
         io.emit('read:code',data);    
-        console.log(data.toString().trim());
+        //console.log(data.toString().trim());
       })        
     });
-
-
-
     //Escribir datos
     socket.on('write:arduino', data=>{
+      //console.log(data);
       sp.write(data.codigo+'#'+data.nombres+'#'+data.apellido_paterno+'#'+data.apellido_materno+'#');
     });
   })
