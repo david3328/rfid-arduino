@@ -7,13 +7,9 @@ block main
   #check(style="position:fixed;bottom:12em;cursor:pointer;width:80px;height:80px" title="Conectar arduino").bg-warning.rounded-circle.mb-5.ml-5.p-3.d-flex.justify-content-center.align-items-center
     i.fa.fa-check(style="font-size:2em;color:#fff")
   .mt-5.pt-3
-    .container.col-lg-6.offset-lg-3.px-5.mt-5
-      .h1.text-center SELECCIONAR ASISTENCIA
-      .form-group.mt-5
-        label(for="#asistencias") Asistencia:
-        select#asistencias.form-control
-          option(value="-1") Seleccionar asistencia.   
-      h1#titulo.text-center.mt-5.mb-4.h2 LISTADO DE ALUMNOS
+    .container.col-lg-6.offset-lg-3.px-5.mt-5     
+      .h3.text-center#titulo_curso NO HAY ASISTENCIA ACTIVADA 
+      .h4#titulo.text-center.mt-3.mb-4.h2 LISTADO DE ALUMNOS
       .table-container
         table#testTable.table.table-hover(summary="Code page support in different versions of MS Windows." rules="groups" frame="hsides")
           thead.thead-dark 

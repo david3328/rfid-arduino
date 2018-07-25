@@ -28,7 +28,7 @@ module.exports = (io)=>{
     //Escribir datos
     socket.on('write:arduino', data=>{
       //console.log(data);
-      sp.write(data.codigo+'#'+data.nombres+'#'+data.apellido_paterno+'#'+data.apellido_materno+'#');
+      sp.write(data+'#');
     });
   })
 }

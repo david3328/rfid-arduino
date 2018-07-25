@@ -3,30 +3,13 @@ const socket = io();
 const btnConectar = document.getElementById('conectar');
 const btnGuardar = document.getElementById('guardar');
 const btnCheck = document.getElementById('check');
-const asistencias = document.getElementById('asistencias');
 const titulo = document.getElementById('titulo');
+const titulo_curso = document.getElementById('titulo_curso');
 const tabla = document.getElementById('tabla');
 const body = document.getElementById('body');
-listarAsistencias();
 listarAlumnos();
 
-function listarAsistencias(){
-  fetch('http://localhost:4000/api/asistencia')
-  .then(res=>res.json())
-  .then(res=>{
-    if (res.success == true) {
-      if (res.data.length > 0) {
-        let html = `<option value='-1'>Seleccionar asistencia</option>`;
-        res.data.map(el => {
-          html += `<option value='${el.id_asistencia}'>${el.id_grupo} ${el.nombre} - ${el.dia} de ${el.hora_inicio} a ${el.hora_fin} - ${el.nombres} ${el.apellido_paterno}</option>`
-        })
-        asistencias.innerHTML = html;
-      } else {
-        asistencias.innerHTML = `<option value='-1'>No hay asistencias registradas hoy</option>`
-      }
-    }
-  })
-}
+
 
 
 setInterval(()=>{
@@ -45,6 +28,8 @@ btnGuardar.addEventListener('click',()=>{
     function(){
       tableToExcel('testTable', 'W3C Example Table')
       localStorage.removeItem('alumnos-asistencia');
+      localStorage.removeItem('asistencia-telein');
+      titulo_curso.innerHTML = 'NO HAY ASISTENCIA ACTIVADA';
       listarAlumnos();
       alertify.success('Datos guardados');
     },
@@ -63,7 +48,7 @@ btnCheck.addEventListener('click',()=>{
     let count = asistenciasOffline.length;
     asistenciasOffline.map(el=>{
       let data = {idAlumno:el.idalumno,idAsistencia:el.idasistencia,date:el.hora}
-      fetch('http://localhost:4000/api/asistencia/ingresar',{
+      fetch('http://localhost:4000/api/asistencias/ingresar',{
         method:'post',
         headers:{
           'Content-Type':'application/json'
@@ -93,27 +78,41 @@ socket.on('read:code',data=>{
   let objAlumno = {};
   let alumnoEntrante = data.split('-');
   objAlumno.codigo = alumnoEntrante[0];
-  objAlumno.alumno = `${alumnoEntrante[1]} ${alumnoEntrante[2]} ${alumnoEntrante[3]}`;
   objAlumno.hora = getTimeStamp();
+  console.log(objAlumno);
   let alumnos = localStorage.getItem('alumnos-asistencia')? JSON.parse(localStorage.getItem('alumnos-asistencia')) : [];
   let alumno = alumnos.find(e=>e.codigo === objAlumno.codigo);
   if(!alumno){
-    if(asistencias.value != -1 ){
-    alumnos.push(objAlumno);
-    localStorage.setItem('alumnos-asistencia',JSON.stringify(alumnos));
     if(objAlumno.codigo.substr(0,3)=='020'){
-      guardarAsistencia(objAlumno.codigo,objAlumno.hora);
+      if(localStorage.getItem('asistencia-telein')){
+        let lista_matriculados = JSON.parse(localStorage.getItem('alumnos-matriculados'));
+        let ialumno = lista_matriculados.find(el=>el.id_alumno==objAlumno.codigo);
+        if(ialumno){
+          objAlumno.alumno = `${ialumno.nombres} ${ialumno.apellido_paterno} ${ialumno.apellido_materno}`
+        }else{
+          objAlumno.alumno = 'ALUMNO NO MATRICULADO';
+        }
+        alumnos.push(objAlumno);
+        localStorage.setItem('alumnos-asistencia',JSON.stringify(alumnos));
+        guardarAsistencia(objAlumno.codigo,objAlumno.hora);
+      }else{
+        alertify.error('PRIMERO ACTIVAR ASISTENCIA');
+      }    
     }else{  
-      docenteAsistencia(objAlumno.codigo);
+      if(localStorage.getItem('asistencia-telein')){
+        alertify.error('YA HAY UNA ASISTENCIA CREADA');
+      }else{
+        docenteAsistencia(objAlumno.codigo);
+      }
     }
-    }else{
-      alertify.error('No ha seleccionado asistencia')
-    }
+
   }
   listarAlumnos();
 })
 
 function listarAlumnos(){
+  if(localStorage.getItem('asistencia-telein'))
+    titulo_curso.innerHTML = JSON.parse(localStorage.getItem('asistencia-telein')).curso;
   let alumnos = localStorage.getItem('alumnos-asistencia')? JSON.parse(localStorage.getItem('alumnos-asistencia')) : [];
   if(alumnos.length>0){
     let html = '';
@@ -131,9 +130,9 @@ function listarAlumnos(){
 }
 
 function guardarAsistencia(idalumno,hora){
-  if(asistencias.value != -1 ){
-    let data = {idAlumno:idalumno,idAsistencia:asistencias.value,date:hora}
-    fetch('http://localhost:4000/api/asistencia/ingresar',{
+    let asistencia = JSON.parse(localStorage.getItem('asistencia-telein')).id;
+    let data = {idAlumno:idalumno,idAsistencia:asistencia,date:hora}
+    fetch('http://localhost:4000/api/asistencias/ingresar',{
       method:'post',
       headers:{
         'Content-Type':'application/json'
@@ -155,15 +154,13 @@ function guardarAsistencia(idalumno,hora){
       if(!asistencia){
         asistenciaOffline.push({
           idalumno:idalumno,
-          idasistencia: asistencias.value,
+          idasistencia: JSON.parse(localStorage.getItem('asistencia-telein')).id,
           hora:hora
         })
         localStorage.setItem('asistencia-offline',JSON.stringify(asistenciaOffline));
       }
     })
-  }else{
-    alertify.error('No ha seleccionado asistencia')
-  }
+
   
 }
 
@@ -187,8 +184,8 @@ function getTimeStamp() {
 }
 
 function docenteAsistencia(docente){
-  let data= {email:docente,asistencia:asistencias.value};
-  fetch('http://localhost:4000/api/asistencia/ingresar/docente',{
+  let data= {email:docente};
+  fetch('http://localhost:4000/api/asistencia/crear',{
       method:'post',
       headers:{
         'Content-Type':'application/json'
@@ -197,8 +194,14 @@ function docenteAsistencia(docente){
     })
     .then(res=>res.json())
     .then(res=>{
-      if(res.success){
-        alertify.success('Docente ingresado');
+      if(res.success && data!=null){
+        let curso = res.data[0]._curso;
+        let idasistencia = res.data[0]._idasistencia;
+        let datos = {curso,id:idasistencia}
+        localStorage.setItem('asistencia-telein',JSON.stringify(datos));
+        titulo_curso.innerHTML = `CURSO: ${curso}`;
+        localStorage.setItem('alumnos-matriculados',JSON.stringify(res.data[0]._response));
+        alertify.success('Asistencia Creada');
       }else{
         alertify.error(res.message)
       }

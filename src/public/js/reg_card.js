@@ -38,7 +38,7 @@ btnBuscar.addEventListener('click',(e)=>{
 btnRegistrar.addEventListener('click',(e)=>{
   e.preventDefault();
   if(nombres.value != '' && apaterno.value != '' && amaterno.value != '' && idalumno.value != ''){
-    let data = {codigo:idalumno.value,nombres:nombres.value,apellido_paterno:apaterno.value,apellido_materno:amaterno.value};
+    let data = idalumno.value;
     socket.emit('write:arduino',data);
   }else{
     alertify.warning('Los datos están vacíos');
