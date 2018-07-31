@@ -100,8 +100,19 @@ socket.on('read:code',data=>{
       }    
     }else{  
       if(localStorage.getItem('asistencia-telein')){
-        alertify.error('YA HAY UNA ASISTENCIA CREADA');
+        if(objAlumno.codigo == localStorage.getItem('docente-telein')){
+          finalizarAsistencia();
+          tableToExcel('testTable', 'W3C Example Table')
+          localStorage.removeItem('alumnos-asistencia');
+          localStorage.removeItem('asistencia-telein');
+          titulo_curso.innerHTML = 'NO HAY ASISTENCIA ACTIVADA';
+          listarAlumnos();
+          alertify.success('Datos guardados');
+        }else{
+          alertify.error('Código docente incorrecto');
+        }       
       }else{
+        localStorage.setItem('docente-telein',objAlumno.codigo);
         docenteAsistencia(objAlumno.codigo);
       }
     }
@@ -127,6 +138,22 @@ function listarAlumnos(){
   }else{
     tabla.innerHTML = `<td colspan="3"><p class="text-danger text-center">No hay alumnos registrados.</p></td>`
   }
+}
+
+
+function finalizarAsistencia(){
+  let asistencia = JSON.parse(localStorage.getItem('asistencia-telein')).id;
+  fetch('http://localhost:4000/api/asistencias/finalizar',{
+    method:'post',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({asistencia})
+  })
+  .then(res=>res.json())
+  .then(res=>{
+    if(res.success){
+      alertify.success('ASISTENCIA FINALIZADA');
+    }
+  })
 }
 
 function guardarAsistencia(idalumno,hora){
